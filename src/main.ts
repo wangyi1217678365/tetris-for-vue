@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-
-createApp(App).mount('#app')
+import i18n from '@/i18n/index'
+const app: any = createApp(App)
+app.use(i18n).mount('#app')
