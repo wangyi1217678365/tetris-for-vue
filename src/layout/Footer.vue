@@ -1,15 +1,11 @@
 <script setup lang="ts">
-  
+ 
 </script>
 
 <template>
-  <div class="tetris">
-    
-  </div>
+  
 </template>
 
 <style scoped lang="scss">
-  .tetris {
-    
-  }
+
 </style>

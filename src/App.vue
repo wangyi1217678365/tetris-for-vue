@@ -1,12 +1,10 @@
 <script setup lang="ts">
-  import { useI18n } from 'vue-i18n'
-  const { t, locale  } = useI18n() 
-  locale.value = 'en'
+  import Layout from '@/layout/index.vue'
 </script>
 
 <template>
   <div class="app">
-    {{ t('message.hello') }}
+    <Layout />
   </div>
 </template>
 

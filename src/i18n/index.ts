@@ -2,7 +2,7 @@
 import { createI18n } from 'vue-i18n'
 
 const i18n = createI18n({
-  legacy: false,
+  // legacy: false,
   locale: 'ch', // set locale
   messages: {
     ch: {
