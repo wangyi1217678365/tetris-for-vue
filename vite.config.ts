@@ -20,6 +20,11 @@ export default defineConfig({
       plugins: [
         loder_pxtovw
       ]
+    },
+    preprocessorOptions: {
+      sass: {
+        additionalData: '@import "./src/assets/scss/var.scss";'
+      }
     }
   },
   resolve: {
