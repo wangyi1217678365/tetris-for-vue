@@ -4,6 +4,7 @@ import i18n from '@/i18n/index'
 import router from '@/router/index'
 import { Toast } from 'vant'
 import 'vant/es/Toast/style/index.js'
+import '@/style/index.scss'
 const app: any = createApp(App)
 app.use(i18n)
 app.use(router)
