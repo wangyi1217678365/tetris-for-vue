@@ -14,14 +14,12 @@
     width: 750px;
     height: 100vh;
     margin: 0 auto;
-    background: red;
   }
 }
 @media screen and (max-width: 750px) {
   #app {
     max-width: 100vw;
     height: 100vh;
-    background: red;
   }
 }
 </style>

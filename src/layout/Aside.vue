@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  
+  <van-icon name="wap-nav" />
 </template>
 
 <style scoped lang="scss">

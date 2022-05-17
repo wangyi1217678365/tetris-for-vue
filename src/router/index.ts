@@ -1,8 +1,11 @@
 import { createRouter, createWebHashHistory } from "vue-router"
-import Tetris from '@/views/Tetris.vue'
 
 const routes = [
-  { path: '/', component: Tetris }
+  { 
+    path: '/', 
+    name: 'Tetris',
+    component: () => import('@/views/Tetris.vue') 
+  }
 ]
 
 const router = createRouter({
