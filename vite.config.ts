@@ -17,6 +17,8 @@ import {
   themePreprocessorPlugin,
   themePreprocessorHmrPlugin,
 } from "@zougt/vite-plugin-theme-preprocessor";
+import AutoImport from 'unplugin-auto-import/vite'
+
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -86,6 +88,37 @@ export default defineConfig({
         ],
       },
     }),
-    themePreprocessorHmrPlugin() // 主题热更新，不得已分开插件，因为需要vite插件顺序enforce
+    themePreprocessorHmrPlugin(), // 主题热更新，不得已分开插件，因为需要vite插件顺序enforce
+    AutoImport({
+      // targets to transform
+      include: [
+        /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
+        /\.vue$/, /\.vue\?vue/, // .vue
+        /\.md$/, // .md
+      ],
+      imports: [
+        'vue',
+        'vue-router',
+        {
+          '@vueuse/core': [
+            'useMouse', 
+            ['useFetch', 'useMyFetch']
+          ],
+          'axios': [
+            ['default', 'axios'], 
+          ],
+          '[package-name]': [
+            '[import-names]',
+            ['[from]', '[alias]'],
+          ],
+        },
+      ],
+      eslintrc: {
+        enabled: false, 
+        filepath: './.eslintrc-auto-import.json', 
+        globalsPropValue: true, 
+      },
+      dts: './auto-imports.d.ts',
+    })
   ]
 })

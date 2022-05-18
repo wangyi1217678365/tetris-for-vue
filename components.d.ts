@@ -9,9 +9,7 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     TheCanvas: typeof import('./src/components/TheCanvas/index.vue')['default']
     TheVue3: typeof import('./src/components/TheVue3/index.vue')['default']
-    VanButton: typeof import('vant/es')['Button']
     VanIcon: typeof import('vant/es')['Icon']
-    VanPopup: typeof import('vant/es')['Popup']
   }
 }
 
