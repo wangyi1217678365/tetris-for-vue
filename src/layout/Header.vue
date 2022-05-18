@@ -12,7 +12,6 @@
 </template>
 
 <style scoped lang="less">
-  @import "../../node_modules/vant/lib/style/var.less";
   .header {
     height: 88px;
     display: flex;
