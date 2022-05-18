@@ -12,7 +12,6 @@
 </template>
 
 <style scoped lang="less">
-  @import "../../node_modules/vant/lib/style/var.less";
   .header {
     height: 88px;
     display: flex;
@@ -20,8 +19,8 @@
     align-items: center;
     box-sizing: border-box;
     padding: 0 25px;
-    color: #fff;
-    background: @primary-color;
+    color: #FFFFFF;
+    background: $primaryColor;
     h1 {
       max-width: calc(100% - 150px);
       font-size: 44px;
