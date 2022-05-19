@@ -1,31 +1,51 @@
 <script setup lang="ts">
   import { ref, watch } from "vue";
-  // import { useI18n } from 'vue-i18n'
-  // const { locale  } = useI18n() 
-  // locale.value = 'en'
   import Color from 'color'
-  // "@setCustomTheme" 是 themePreprocessorPlugin 提供的模块，setCustomTheme的参数必须提供Color模块，至于为什么不把 Color 直接依赖进去是有原因的
   import setCustomTheme from "@setCustomTheme";
-  
-  // 设置任意主题色既可
+  import { useI18n } from 'vue-i18n'
+  import { ColorPicker } from "vue3-colorpicker";
+  import "vue3-colorpicker/style.css";
 
-  const flat = ref(true)
-  setTimeout(() => {
-    flat.value = false
-  }, 2000)
-  watch(flat, () => {
+  const { locale  } = useI18n() 
+  const show = ref(false)
+  const checked = ref(false)
+  const changeSwitch = (value: Boolean) => {
+    locale.value = value ? 'en' : 'zh'
+  }
+
+  const pureColor = ref('#512da7')
+  const changeColor = (e: any) => {
+    pureColor.value = e.target.value
     setCustomTheme({
       Color,
-      primaryColor: '#3eaf7a'
+      primaryColor: e.target.value
     });
-  })
+  }
 
 </script>
 
 <template>
-  <van-icon name="setting" />
+  <div class="setting">
+    <van-icon name="setting" @click="show = true" />
+    <van-popup v-model:show="show" position="right" teleport="body">
+      <van-cell-group>
+        <van-cell center :title="$t('languargesText')">
+          <template #right-icon>
+            <van-switch v-model="checked" @change="changeSwitch" size="5.333vw" />
+          </template>
+        </van-cell>
+        <van-cell center :title="$t('theme')">
+          <template #right-icon>
+            <input type="color" :value="pureColor" @change="changeColor" />
+            <!-- <color-picker v-model:pureColor="pureColor" /> -->
+          </template>
+        </van-cell>
+      </van-cell-group>
+    </van-popup>
+  </div>
+  
 </template>
 
-<style scoped lang="less">
-
+<style lang="less">
+  
 </style>

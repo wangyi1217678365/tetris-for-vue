@@ -8,10 +8,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "install": "^0.13.0",
+    "npm": "^8.10.0",
     "vant": "^3.4.9",
     "vue": "^3.2.25",
     "vue-i18n": "^9.1.10",
-    "vue-router": "^4.0.15"
+    "vue-router": "^4.0.15",
+    "vue3-colorpicker": "^2.0.4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",

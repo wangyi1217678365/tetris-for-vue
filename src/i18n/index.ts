@@ -1,4 +1,3 @@
-// src/i18n/index.ts
 import { createI18n } from 'vue-i18n'
 
 const i18n = createI18n({
@@ -6,14 +5,16 @@ const i18n = createI18n({
   locale: 'ch', // set locale
   messages: {
     ch: {
-      message: {
-        hello: '你好世界',
-      },
+      titleTetris: '俄罗斯方块',
+      goBack: '返回',
+      languargesText: '多语言/中',
+      theme: '主题'
     },
     en: {
-      message: {
-        hello: 'hello world',
-      },
+      titleTetris: 'tetris',
+      goBack: 'back',
+      languargesText: 'langs/en',
+      theme: 'theme'
     },
   },
 })

@@ -1,36 +1,23 @@
 <script setup lang="ts">
-  import AsideVue from './Aside.vue'
+  import { useRouter } from 'vue-router'
   import SettingVue from './Setting.vue'
+  import NavVue from './Nav.vue'
+  const router = useRouter()
 </script>
 
 <template>
   <div class="header">
-    <AsideVue />
-    <h1>俄罗斯方块</h1>
-    <SettingVue />
+    <van-nav-bar 
+      :title="$t('titleTetris')" 
+      :left-text="$t('goBack')" 
+      left-arrow
+      safe-area-inset-top
+      @click-left="router.back()"
+    >
+      <template #right>
+        <SettingVue />
+      </template>
+    </van-nav-bar>
+    <NavVue />
   </div>
 </template>
-
-<style scoped lang="less">
-  .header {
-    height: 88px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-sizing: border-box;
-    padding: 0 25px;
-    color: #fff;
-    background: @primary-color;
-    h1 {
-      max-width: calc(100% - 150px);
-      font-size: 44px;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
-    .van-icon {
-      font-size: 50px;
-
-    }
-  }
-</style>

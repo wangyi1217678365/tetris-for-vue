@@ -22,4 +22,8 @@
     height: 100vh;
   }
 }
+.van-popup--right {
+  width: 40%;
+  height: 100%;
+}
 </style>
