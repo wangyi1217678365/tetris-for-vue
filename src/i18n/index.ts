@@ -2,9 +2,9 @@ import { createI18n } from 'vue-i18n'
 
 const i18n = createI18n({
   // legacy: false,
-  locale: 'ch', // set locale
+  locale: 'zh', // set locale
   messages: {
-    ch: {
+    zh: {
       titleTetris: '俄罗斯方块',
       goBack: '返回',
       languargesText: '多语言/中',

@@ -9,7 +9,7 @@
 </template>
 
 <style>
-@media screen and (min-width: 751px) {
+/* @media screen and (min-width: 751px) {
   #app {
     width: 750px;
     height: 100vh;
@@ -21,7 +21,7 @@
     max-width: 100vw;
     height: 100vh;
   }
-}
+} */
 .van-popup--right {
   width: 40%;
   height: 100%;

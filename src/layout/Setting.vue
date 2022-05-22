@@ -3,9 +3,7 @@
   import Color from 'color'
   import setCustomTheme from "@setCustomTheme";
   import { useI18n } from 'vue-i18n'
-  import { ColorPicker } from "vue3-colorpicker";
-  import "vue3-colorpicker/style.css";
-
+  
   const { locale  } = useI18n() 
   const show = ref(false)
   const checked = ref(false)

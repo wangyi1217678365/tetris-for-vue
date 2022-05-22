@@ -8,9 +8,3 @@
     <router-view />
   </div>
 </template>
-
-<style scoped lang="less">
-  .layout {
-    
-  }
-</style>

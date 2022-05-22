@@ -49,7 +49,8 @@ export default defineConfig({
         find: '@',
         replacement: resolve('./src')
       }
-    ]
+    ],
+    extensions: ['.vue', '.ts', '.js']
   },
   plugins: [
     vue(),
