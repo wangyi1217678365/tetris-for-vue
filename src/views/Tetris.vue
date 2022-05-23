@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import vue from '@/components/Tetris/vue/index.vue'
+  import vue from '@/components/Tetris/Vue/index.vue'
 </script>
 
 <template>

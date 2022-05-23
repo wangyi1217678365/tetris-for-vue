@@ -1,7 +1,7 @@
 /*
-  1: I 2：J 3：L 4：O 5：Z 6：S 7：T
+  1: I 2: J 3: L 4: S 5: Z 6: O 7: T
 */
-export const ALLFIGURE = [
+export const figure = [
   [
     {
       line: 0,
@@ -59,11 +59,11 @@ export const ALLFIGURE = [
   [
     {
       line: 0,
-      column: 4
+      column: 5
     },
     {
       line: 0,
-      column: 5
+      column: 6
     },
     {
       line: 1,
@@ -95,11 +95,11 @@ export const ALLFIGURE = [
   [
     {
       line: 0,
-      column: 5
+      column: 4
     },
     {
       line: 0,
-      column: 6
+      column: 5
     },
     {
       line: 1,

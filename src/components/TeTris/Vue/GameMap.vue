@@ -1,12 +1,11 @@
 <script setup lang="ts">
-  import { ALLFIGURE } from './index.ts'
-  /*
-    randomIndex: 随机图形类型
-  */
-  const { randomIndex } = defineProps({
-    randomIndex: Number
+  import { defineProps } from '@vue/runtime-core'
+import { figure } from '@/components/Tetris/Vue/index.ts'
+  const isMove = ref(false)
+  let interval = null
+  const props = defineProps({
+    moveFigureIndex: Number
   })
-
   // 行 
   const MAPLINE: number = 20
   // 列
@@ -22,7 +21,6 @@
     id: string;
     switch: boolean;
   }
-
   // 遍历出所有单元
   const getAllCellData = (): Array<LineData>  => {
     const allCellData = []
@@ -43,33 +41,69 @@
     return allCellData
   }
   // 全部单元
-  const allCellData = getAllCellData()
-  const allCellDataReactive = reactive(allCellData)
+  const allCellDataReactive = reactive(getAllCellData())
 
-  // 运动方块
-  const moveFigure = ALLFIGURE[randomIndex]
-
-  const renderMoveCell = (direction?: String) => {
+  // 图形自由落体
+  const moveFigure = figure[props.moveFigureIndex]
+  const renderMoveFigure = (direction?: String) => {
     if (direction) {
-      for (let item of moveFigure) {
-        allCellDataReactive[item.line].children[item.column].switch = false
+      let flag = true
+      for (let [index, item] of moveFigure.entries()) {
+        if (props.moveFigureIndex === 0) {
+          if (item.line + 1 > 19 || allCellDataReactive[item.line + 1].children[item.column].switch) {
+            flag = false
+            break
+          }
+        } else if (props.moveFigureIndex === 1 || props.moveFigureIndex === 2) {
+          if (index > 0 && (item.line + 1 > 19 || allCellDataReactive[item.line + 1].children[item.column].switch)) {
+            flag = false
+            break
+          }
+        } else if (props.moveFigureIndex === 3 || props.moveFigureIndex === 4) {
+
+        } else if (props.moveFigureIndex === 5) {
+
+        } else {
+
+        }
       }
-    } else {
-      for (let item of moveFigure) {
-        allCellDataReactive[item.line].children[item.column].switch = true
+      if (flag) {
+        for (let item of moveFigure) {
+          allCellDataReactive[item.line].children[item.column].switch = false
+        }
+        if (direction === 'down') {
+          for (let cell of moveFigure) {
+            cell.line++
+          }
+        } else if (direction === 'left') {
+          for (let cell of moveFigure) {
+            cell.column--
+          }
+        } else if (direction === 'right') {
+          for (let cell of moveFigure) {
+            cell.column++
+          }
+        }
+      } else {
+        isMove.value = false
+        clearInterval(interval)
+        interval = null
+        return
       }
+      
+    }
+    for (let item of moveFigure) {
+      allCellDataReactive[item.line].children[item.column].switch = true
     }
   }
-  renderMoveCell()
-
-  // 向下移动方块
-  setTimeout(() => {
-    renderMoveCell('down')
-    for (let item of moveFigure) {
-      item.line++
-    }
-    renderMoveCell()
-  }, 2000)
+  // 自由落体
+  if (!isMove.value) {
+    isMove.value = true
+    renderMoveFigure()
+    interval = setInterval(() => {
+      renderMoveFigure('down')
+    }, 200)
+  }
 
   
 </script>

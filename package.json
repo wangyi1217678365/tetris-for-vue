@@ -16,6 +16,7 @@
     "vue-router": "^4.0.15"
   },
   "devDependencies": {
+    "@types/node": "^17.0.35",
     "@vitejs/plugin-vue": "^2.3.3",
     "@zougt/some-loader-utils": "^1.4.3",
     "@zougt/vite-plugin-theme-preprocessor": "^1.4.5",

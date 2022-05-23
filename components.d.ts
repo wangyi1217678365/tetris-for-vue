@@ -5,9 +5,8 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    BaseInformation: typeof import('./src/components/TeTris/Vue/BaseInformation.vue')['default']
-    Canvas: typeof import('./src/components/TeTris/Canvas/index.vue')['default']
-    GameMap: typeof import('./src/components/TeTris/Vue/GameMap.vue')['default']
+    BaseInformation: typeof import('./src/components/Tetris/Vue/BaseInformation.vue')['default']
+    GameMap: typeof import('./src/components/Tetris/Vue/GameMap.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     VanCell: typeof import('vant/es')['Cell']
@@ -16,7 +15,7 @@ declare module '@vue/runtime-core' {
     VanNavBar: typeof import('vant/es')['NavBar']
     VanPopup: typeof import('vant/es')['Popup']
     VanSwitch: typeof import('vant/es')['Switch']
-    Vue: typeof import('./src/components/TeTris/Vue/index.vue')['default']
+    Vue: typeof import('./src/components/Tetris/Vue/index.vue')['default']
   }
 }
 
