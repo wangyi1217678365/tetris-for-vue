@@ -1,15 +1,17 @@
 <script setup lang="ts">
-  import { defineProps } from '@vue/runtime-core'
-import { figure } from '@/components/Tetris/Vue/index.ts'
-  const isMove = ref(false)
+  import { figure } from '@/components/Tetris/Vue/index.ts'
   let interval = null
   const props = defineProps({
     moveFigureIndex: Number
   })
+  const emit = defineEmits(['handleMoveFinish'])
+  
   // 行 
   const MAPLINE: number = 20
   // 列
   const MAPCOLUMN: number = 10
+  // 当前堆放的块
+  const currntSwitch = {}
   // 单元行数据格式
   interface LineData {
     id: string;
@@ -43,28 +45,23 @@ import { figure } from '@/components/Tetris/Vue/index.ts'
   // 全部单元
   const allCellDataReactive = reactive(getAllCellData())
 
-  // 图形自由落体
-  const moveFigure = figure[props.moveFigureIndex]
-  const renderMoveFigure = (direction?: String) => {
+  
+  const renderMoveFigure = (moveFigure, direction?: String) => {
     if (direction) {
       let flag = true
-      for (let [index, item] of moveFigure.entries()) {
-        if (props.moveFigureIndex === 0) {
-          if (item.line + 1 > 19 || allCellDataReactive[item.line + 1].children[item.column].switch) {
-            flag = false
-            break
-          }
-        } else if (props.moveFigureIndex === 1 || props.moveFigureIndex === 2) {
-          if (index > 0 && (item.line + 1 > 19 || allCellDataReactive[item.line + 1].children[item.column].switch)) {
-            flag = false
-            break
-          }
-        } else if (props.moveFigureIndex === 3 || props.moveFigureIndex === 4) {
-
-        } else if (props.moveFigureIndex === 5) {
-
+      for (let item of moveFigure) {
+        if (item.line + 1 > 19 || item.column - 1 < 0 || item.column + 1 > 9) {
+          flag = false
+          break
         } else {
-
+          if (
+            currntSwitch[allCellDataReactive[item.line + 1].children[item.column].id] || 
+            currntSwitch[allCellDataReactive[item.line].children[item.column--].id] || 
+            currntSwitch[allCellDataReactive[item.line].children[item.column++].id]
+          ) {
+            flag = false
+            break
+          }
         }
       }
       if (flag) {
@@ -85,9 +82,13 @@ import { figure } from '@/components/Tetris/Vue/index.ts'
           }
         }
       } else {
-        isMove.value = false
         clearInterval(interval)
         interval = null
+        if (moveFigure[0].line === 0) return
+        for (let item of moveFigure) {
+          currntSwitch[allCellDataReactive[item.line].children[item.column].id] = true
+        }
+        emit('handleMoveFinish')
         return
       }
       
@@ -96,15 +97,25 @@ import { figure } from '@/components/Tetris/Vue/index.ts'
       allCellDataReactive[item.line].children[item.column].switch = true
     }
   }
-  // 自由落体
-  if (!isMove.value) {
-    isMove.value = true
-    renderMoveFigure()
-    interval = setInterval(() => {
-      renderMoveFigure('down')
-    }, 200)
+  let moveFigure = null
+  const init = (direction?: string) => {
+    // 图形自由落体
+    if (direction) {
+      renderMoveFigure(moveFigure, direction)
+    }
+    else {
+      moveFigure = JSON.parse(JSON.stringify(figure[props.moveFigureIndex])) 
+      renderMoveFigure(moveFigure)
+      interval = setInterval(() => {
+        renderMoveFigure(moveFigure, 'down')
+      }, 1000)
+    }
   }
+  init()
 
+  defineExpose({
+    init
+  })
   
 </script>
 <template>

@@ -1,11 +1,18 @@
 <script setup lang="ts">
-  const Datalabel = {
-
+  interface Information {
+    Max: number,
+    Cleans: number,
+    Level: number,
+    Next: number
   }
+  const props = defineProps<{
+    information: Information
+  }>()
+  
 </script>
 <template>
   <div class="information">
-    <div>最高分</div>
+    <div>最高分{{props.information.Next}}</div>
   </div>
 </template>
 <style lang="less" scoped>
