@@ -1,7 +1,7 @@
 /*
   1: I 2: J 3: L 4: S 5: Z 6: O 7: T
 */
-export const figure = [
+export const figureList = [
   [
     {
       line: 0,

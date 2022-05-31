@@ -6,15 +6,10 @@
   const gameMap = ref(null)
   const moveFigureIndex = ref(Math.floor(Math.random() * 7))
   const nextFigureIndex = ref(Math.floor(Math.random() * 7))
-  console.log(moveFigureIndex.value, nextFigureIndex.value, '=====');
   
   const handleMoveFinish = async () => {
-    console.log(555);
-    
     moveFigureIndex.value = nextFigureIndex.value
     nextFigureIndex.value = Math.floor(Math.random() * 7)
-    await nextTick()
-    gameMap.value.init()
   }
 
   const gameInformation = reactive({
@@ -25,10 +20,15 @@
   })
   onMounted(() => {
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft' || e.key === 'a') {
-        gameMap.value.init('left')
-      } else if (e.key === 'ArrowRight' || e.key === 'd') {
-        gameMap.value.init('right')
+      const keyDownCode: number = (e as any).keyCode
+      if ([37, 65].includes(keyDownCode)) {
+        gameMap.value.moverFigure('left')
+      } else if ([40, 83].includes(keyDownCode)) {
+        gameMap.value.moverFigure('down')
+      } else if ([39, 68].includes(keyDownCode)) {
+        gameMap.value.moverFigure('right')
+      } else if ([38, 87].includes(keyDownCode)) {
+        gameMap.value.changeFigure()
       }
     })
   })

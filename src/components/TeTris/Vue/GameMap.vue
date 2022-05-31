@@ -1,29 +1,34 @@
 <script setup lang="ts">
-  import { figure } from '@/components/Tetris/Vue/index.ts'
-  let interval = null
+  import { figureList } from '@/components/Tetris/Vue/index.ts'
+  /**
+   * moveFigureIndex: 当前图形索引
+  */
   const props = defineProps({
     moveFigureIndex: Number
   })
+  /**
+   * handleMoveFinish: 图形运动结束
+  */
   const emit = defineEmits(['handleMoveFinish'])
   
-  // 行 
+  // 地图高 
   const MAPLINE: number = 20
-  // 列
+  // 地图宽
   const MAPCOLUMN: number = 10
-  // 当前堆放的块
+  // 当前堆放的单元
   const currntSwitch = {}
-  // 单元行数据格式
+  // 行数据格式
   interface LineData {
     id: string;
     count: number,
     children: Array<ColumnData>
   }
-  // 单元列数据格式
+  // 列数据格式
   interface ColumnData {
     id: string;
     switch: boolean;
   }
-  // 遍历出所有单元
+  // 遍历出地图单元
   const getAllCellData = (): Array<LineData>  => {
     const allCellData = []
     for (let line: number = 0; line < MAPLINE; line++) {
@@ -45,76 +50,101 @@
   // 全部单元
   const allCellDataReactive = reactive(getAllCellData())
 
-  
-  const renderMoveFigure = (moveFigure, direction?: String) => {
-    if (direction) {
-      let flag = true
-      for (let item of moveFigure) {
-        if (item.line + 1 > 19 || item.column - 1 < 0 || item.column + 1 > 9) {
-          flag = false
-          break
-        } else {
-          if (
-            currntSwitch[allCellDataReactive[item.line + 1].children[item.column].id] || 
-            currntSwitch[allCellDataReactive[item.line].children[item.column--].id] || 
-            currntSwitch[allCellDataReactive[item.line].children[item.column++].id]
-          ) {
-            flag = false
-            break
-          }
-        }
+  // 移动的图形
+  const figure = ref(null)
+  // 生成初始图形
+  const initFigure = () => {
+    figure.value = JSON.parse(JSON.stringify(figureList[props.moveFigureIndex])) 
+    for (let item of figure.value) {
+      allCellDataReactive[item.line].children[item.column].switch = true
+    }
+  } 
+
+  // 移动图形
+  const moverFigure = async (direction: String) => {
+    let flag = true
+    for (let item of figure.value) {
+      if (direction === 'down' && (item.line + 1 > MAPLINE - 1 || currntSwitch[allCellDataReactive[item.line + 1].children[item.column].id])) {
+        flag = false
+        break
       }
-      if (flag) {
-        for (let item of moveFigure) {
-          allCellDataReactive[item.line].children[item.column].switch = false
-        }
-        if (direction === 'down') {
-          for (let cell of moveFigure) {
-            cell.line++
-          }
-        } else if (direction === 'left') {
-          for (let cell of moveFigure) {
-            cell.column--
-          }
-        } else if (direction === 'right') {
-          for (let cell of moveFigure) {
-            cell.column++
-          }
-        }
-      } else {
-        clearInterval(interval)
-        interval = null
-        if (moveFigure[0].line === 0) return
-        for (let item of moveFigure) {
-          currntSwitch[allCellDataReactive[item.line].children[item.column].id] = true
-        }
-        emit('handleMoveFinish')
+      if ( 
+        (item.column === 0 && direction === 'left') || 
+        (item.column === 9 && direction === 'right') || 
+        (direction === 'left' && item.column > 0 && currntSwitch[allCellDataReactive[item.line].children[item.column - 1].id]) || 
+        (direction === 'right' && item.column < 9 && currntSwitch[allCellDataReactive[item.line].children[item.column + 1].id])
+       ) {
         return
       }
-      
     }
-    for (let item of moveFigure) {
+  
+    if (direction === 'down' && !flag) {
+      for (let item of figure.value) {
+        currntSwitch[allCellDataReactive[item.line].children[item.column].id] = true
+        allCellDataReactive[item.line].count++
+      }
+      if (interval) {
+        clearInterval(interval)
+        interval = null
+      }
+      if (figure.value[0].line === 0) return
+      emit('handleMoveFinish')
+      await nextTick()
+      init()
+      return
+    } 
+    for (let item of figure.value) {
+      allCellDataReactive[item.line].children[item.column].switch = false
+      direction === 'down' ? item.line++ : direction === 'left' ? item.column-- :  item.column++
+    }
+    for (let item of figure.value) {
       allCellDataReactive[item.line].children[item.column].switch = true
     }
   }
-  let moveFigure = null
-  const init = (direction?: string) => {
-    // 图形自由落体
-    if (direction) {
-      renderMoveFigure(moveFigure, direction)
+  // 变形
+  const changeFigure = () => {
+    switch (props.moveFigureIndex) {
+      case 0:
+        figure.value
+        break;
+      case 1:
+        console.log(1);
+        break;
+      case 2:
+        console.log(2);
+        break;
+      case 3:
+        console.log(3);
+        break;
+      case 4:
+        console.log(4);
+        break;
+      case 5:
+        console.log(5);
+        break;
+      case 6:
+        console.log(6);
+        break;
     }
-    else {
-      moveFigure = JSON.parse(JSON.stringify(figure[props.moveFigureIndex])) 
-      renderMoveFigure(moveFigure)
-      interval = setInterval(() => {
-        renderMoveFigure(moveFigure, 'down')
-      }, 1000)
-    }
+    
+  }
+
+  // 计时器 重复下落动作
+  let interval = null
+  const init = () => {
+    // 初始化图形
+    initFigure()
+    // 自由落体
+    interval = setInterval(() => {
+      moverFigure('down')
+    }, 1000)
   }
   init()
 
   defineExpose({
-    init
+    init,
+    moverFigure,
+    changeFigure
   })
   
 </script>
